@@ -1,0 +1,85 @@
+2) PROBLEM 2-INVENTORY MANAGEMENT SYSTEM OPTIMIZATION
+SCENARIO-
+You have been hired by a retail company to optimize their inventory management system. The company wants to minimize stockouts and overstock situations while maximizing inventory turnover and profitability.
+Tasks:
+1. Model the inventory system: Define the structure of the inventory system, including products, warehouses, and current stock levels.
+2. Implement an inventory tracking application: Develop a Python application that tracks inventory levels in real-time and alerts when stock levels fall below a certain threshold.
+3. Optimize inventory ordering: Implement algorithms to calculate optimal reorder points and quantities based on historical sales data, lead times, and demand forecasts.
+4. Generate reports: Provide reports on inventory turnover rates, stockout occurrences, and cost implications of overstock situations.
+5. User interaction: Allow users to input product IDs or names to view current stock levels, reorder recommendations, and historical data.
+Deliverables:
+Data Flow Diagram: Illustrate how data flows within the inventory management system, from input (e.g., sales data, inventory adjustments) to output (e.g., reorder alerts, reports).
+Pseudocode and Implementation: Provide pseudocode and actual code demonstrating
+how inventory levels are tracked, reorder points are calculated, and reports are
+generated.
+Documentation: Explain the algorithms used for reorder optimization, how historical data influences decisions, and any assumptions made (e.g., constant lead times).
+• User Interface: Develop a user-friendly interface for accessing inventory information, viewing reports, and receiving alerts.
+Assumptions and Improvements: Discuss assumptions about demand patterns, supplier reliability, and potential improvements for the inventory management system's
+
+DATA FLOW DIAGRAM:-
+
+User Input (Product ID/Name, Sales Data, Inventory Adjustments) -> Inventory Tracking Application -> Reorder Calculation Algorithm
+                 ^                                                                              |
+                 |                                                                              v
+           Alert on Low Stock
+                                                        Generate Reports (Inventory Turnover, Stockouts, Cost Implications)
+
+INVENTORY TRACKING APPLICATION:-
+
+class Product:
+    def __init__(self, product_id, name, initial_stock, reorder_point, reorder_quantity):
+        self.product_id = product_id
+        self.name = name
+        self.stock = initial_stock
+        self.reorder_point = reorder_point
+        self.reorder_quantity = reorder_quantity
+    
+    def update_stock(self, adjustment):
+        self.stock += adjustment
+
+class InventoryManagementSystem:
+    def __init__(self):
+        self.products = {}
+    
+    def add_product(self, product_id, name, initial_stock, reorder_point, reorder_quantity):
+        if product_id not in self.products:
+            self.products[product_id] = Product(product_id, name, initial_stock, reorder_point, reorder_quantity)
+        else:
+            print(f"Product with ID {product_id} already exists.")
+    
+    def track_inventory(self, product_id, adjustment):
+        if product_id in self.products:
+            self.products[product_id].update_stock(adjustment)
+            if self.products[product_id].stock < self.products[product_id].reorder_point:
+                self.generate_reorder_alert(product_id)
+        else:
+            print(f"Product with ID {product_id} does not exist.")
+    
+    def generate_reorder_alert(self, product_id):
+        print(f"Alert: Product {self.products[product_id].name} is below reorder point. Current stock: {self.products[product_id].stock}")
+    
+    def get_product_stock(self, product_id):
+        if product_id in self.products:
+            return self.products[product_id].stock
+        else:
+            return None
+
+# Example usage:
+ims = InventoryManagementSystem()
+ims.add_product(1, "Keyboard", 50, 10, 50)
+ims.add_product(2, "Mouse", 75, 15, 30)
+
+# Simulate inventory adjustments
+ims.track_inventory(1, -5)  # Sold 5 keyboards
+ims.track_inventory(2, -10)  # Sold 10 mice
+
+# Check current stock levels
+print("Current stock levels:")
+print(f"Keyboard: {ims.get_product_stock(1)}")
+print(f"Mouse: {ims.get_product_stock(2)}")
+
+### Data Flow Diagram
+
+```
+User Input (Product ID/Name, Sales Data, Inventory Adjustments) -> Inventory Tracking Application -> Reorder Calculation Algorithm
+          
